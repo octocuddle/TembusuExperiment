@@ -1,0 +1,21 @@
+﻿copy_id,title,isbn,call_number
+book_001,Harry Potter,9.78075E+12,823.92
+book_002,Deep Learning,,6.3
+book_003,Clean Code,9.78013E+12,5.1
+book_004,The Pragmatic Programmer,9.7802E+12,5.1
+book_005,Artificial Intelligence,9.78014E+12,6.3
+book_006,Design Patterns,9.7802E+12,5.1
+book_007,Computer Networks,9.78013E+12,4.6
+book_008,Introduction to Algorithms,9.78026E+12,5.1
+book_009,Python Crash Course,9.78159E+12,5.133
+book_010,You Don't Know JS,9.78149E+12,5.133
+book_011,The Mythical Man-Month,9.7802E+12,5.1
+book_012,Refactoring,9.7802E+12,5.1
+book_013,Eloquent JavaScript,9.78159E+12,5.133
+book_014,The Clean Coder,9.78014E+12,5.1
+book_015,Effective Java,9.78013E+12,5.133
+book_016,JavaScript: The Good Parts,9.7806E+12,5.133
+book_017,Programming Pearls,9.7802E+12,5.1
+book_018,Algorithms Unlocked,9.78026E+12,5.1
+book_019,SICP,9.78026E+12,5.13
+book_020,Operating System Concepts,9.78112E+12,5.43
