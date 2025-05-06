@@ -23,21 +23,25 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     try:
         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")  # ensure compatibility
-        qr_results = decode(image)
+        detected_results = decode(image)
     except Exception as e:
         await update.message.reply_text("⚠️ Could not process the image.")
         return
     
-    
-    if qr_results:
-        qr_text = qr_results[0].data.decode()
-        print(f"Decoded QR: {qr_text}")
-        await update.message.reply_text(f"📦 QR code content: {qr_text}")
+    # ZBar can read multiple codes. If needed, sort by position:
+    # sorted(detected_results, key=lambda r: (r.rect.top, r.rect.left))
+    # Current code constrained to show only the first result. 
+
+    if detected_results: 
+        text = detected_results[0].data.decode()
+        code_type = detected_results[0].type
+        print(f"Decoded {code_type} Code: {text}")
+        await update.message.reply_text(f"📦 {code_type} content: {text}")
     else:
         await update.message.reply_text("❌ No QR code detected in the image.")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👋 Send me a photo of a QR code and I’ll decode it.")
+    await update.message.reply_text("👋 Send me a photo of a QR code or Bar code and I’ll decode it.")
 
 
 

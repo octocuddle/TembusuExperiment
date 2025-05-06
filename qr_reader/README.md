@@ -1,3 +1,7 @@
+# About this code
+
+This `qr_reader_prototype.py` is modified to read **both QR code and bar code**.
+
 # Dependencies
 
 ## System Dependencies
