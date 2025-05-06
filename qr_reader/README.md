@@ -8,15 +8,14 @@ This project requires the ZBar library to be installed on your system:
 - On Ubuntu/Debian: `sudo apt install libzbar0`
 
 ## Python Dependencies 
-telegram import Update
-pyzbar
-Pillow
-io
-Final
-os
-requests
+- telegram
+- pyzbar
+- Pillow
+- io
+- Final
+- os
+- requests
 
-Here’s your updated and polished `README.md` section with improved flow, consistency, and clarity:
 
 ---
 
