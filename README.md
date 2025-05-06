@@ -1,6 +1,6 @@
-# TembusuQR
-QR code generation and scanning
+# TembusuExperiment
+This repo serves as storing the piece-wise small experiment related to the Tembusu Library project.
 
-This report will be divided into 2 parts:
+Currently it carry the following experiments
 1. The QR generation code, which will be in the form of streamlit page
-2. The QR code scanning code, which will be interacting with telegram. 
+2. The QR & Bar code scanning code, which will be interacting with telegram. 

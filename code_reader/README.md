@@ -1,6 +1,6 @@
 # About this code
 
-This `qr_reader_prototype.py` is modified to read **both QR code and bar code**.
+This `qr_reader_prototype.py` is renamed to `code_reader_prototype.py` and modified to read **both QR code and bar code**.
 
 # Dependencies
 
@@ -62,7 +62,7 @@ That means **your Python interpreter (e.g. Python 3.12)** couldn't locate the `l
 Run your script with this command:
 
 ```bash
-DYLD_LIBRARY_PATH="/opt/homebrew/lib" /usr/local/bin/python3 path/to/qr_reader_prototype.py
+DYLD_LIBRARY_PATH="/opt/homebrew/lib" /usr/local/bin/python3 path/to/code_reader_prototype.py
 ```
 
 **Why it works:**
