@@ -2,6 +2,8 @@
 
 This `qr_reader_prototype.py` is renamed to `code_reader_prototype.py` and modified to read **both QR code and bar code**.
 
+Run `qr_reader_prototype.py`, then go to telegram **/start** for test.
+
 # Dependencies
 
 ## System Dependencies
