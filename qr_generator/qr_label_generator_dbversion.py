@@ -16,7 +16,7 @@ from sqlalchemy import create_engine
 
 DB_USER = "testuser"
 DB_PASSWORD = "000000"
-DB_HOST = "localhost"
+DB_HOST = "db" #"localhost"
 DB_PORT = "5432"
 DB_NAME = "MyLibrary2"
 

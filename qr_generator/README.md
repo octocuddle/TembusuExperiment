@@ -32,4 +32,9 @@ This file needs to run with the virtual environment where python is modified and
     - `brew services start postgresql`  # or whatever version you use
 - Run streamlit: `./venv/bin/streamlit run qr_label_generator_dbversion.py`
 
+# Docker-related setup
+In order for qr generator to work on docker, we need to configure `qr_label_generator_dbversion.py`:
 
+> DB_HOST = "db" #"localhost"
+
+We also need to include the Dockerfile under the folder where streamlit runs
