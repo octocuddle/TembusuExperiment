@@ -1,0 +1,47 @@
+
+services:
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: 000000
+      POSTGRES_DB: MyLibrary2
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db_init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    command: ["sh", "-c", "sleep 45 && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+    # command: tail -f /dev/null # use to manually start uvicorn in docker container (so no auto starting of service)
+
+  telegram_bot:
+    build: ./TembusuLib
+    depends_on:
+      - api
+    env_file:
+      - .env
+    volumes:
+      - ./TembusuLib/credentials:/app/credentials
+    environment:
+      - FASTAPI_BASE_URL=http://api:8000
+
+  admin:
+    build: ./admin_dashboard
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+      - db
+    environment:
+      - FASTAPI_BASE_URL=http://api:8000
+
+volumes:
+  pgdata:
