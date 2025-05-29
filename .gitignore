@@ -1,5 +1,6 @@
 __pycache__/
 *.jpg
 credentials/
-*.DS_Store
+*.DS_Store 
+.DS_Store
 *.env
