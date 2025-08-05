@@ -1,10 +1,14 @@
-# telegram_module/telegram_bot.py
+# telegram_bot.py
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 from telegram import InlineKeyboardMarkup
+from notification.due_date_notifier import start_scheduler
+from conversation_module.custom_handler.component_common import show_welcome
+from utils.auth_helpers import get_authenticated_user
 import os
 from conversation_module import get_conversation_handler  # Import the factory function
+from utils.photo_cleaning import clean_old_photos
 
 # Read environment variables
 TOKEN: Final = os.getenv('TELEGRAM_TOKEN')
@@ -12,6 +16,9 @@ if not TOKEN:
     raise ValueError("Please set the TELEGRAM_TOKEN environment variable.")
 
 BOT_USERNAME: Final = '@TembusuLib_bot'
+
+# Track user auth sessions: {telegram_id: student_data}
+authenticated_users = {}
 
 # Initialize ConversationHandler based on service provider
 def start_bot(service_provider: str):
@@ -22,13 +29,32 @@ def start_bot(service_provider: str):
 
     # Commands
     async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text("Hello! Welcome to Tembusu Reading Room.")
+        user = update.effective_user
+        user_id = str(user.id)
+        username = user.username or user.first_name or "Unknown"
+
+        is_valid, result = get_authenticated_user(user_id)
+        if not is_valid:
+            await update.message.reply_text(result)
+            print(f'[AUTH FAIL] @{username} (ID: {user_id}) – {result}')
+            return
+        
+        print(f'[AUTH OK] @{username} (ID: {user_id}) authenticated as {result["full_name"]} ({result["matric_number"]})')
+        
+        await update.message.reply_text(
+            f"Hi {result.get('full_name', 'Student')} ({result.get('matric_number', 'unknown')}), we are processing your request..."
+        )
+
+        response = show_welcome()
+        reply_markup = InlineKeyboardMarkup(response["buttons"])
+        await update.message.reply_text(response["text"], reply_markup=reply_markup)
+
 
     async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Please type something so I can respond =)")
 
-    async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text("This is a custom command!")
+    '''async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        await update.message.reply_text("This is a custom command!")'''
 
     # Handle messages
     async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -37,18 +63,45 @@ def start_bot(service_provider: str):
         user_id = str(user.id)
         username = user.username or user.first_name or "Unknown"
 
+        # Authenticate only if not already done
+        is_valid, result = get_authenticated_user(user_id)
+        if not is_valid:
+            await update.message.reply_text(result)
+            print(f'[AUTH FAIL] @{username} (ID: {user_id}) – {result}')
+            return
+
+        print(f'[AUTH OK] @{username} (ID: {user_id}) authenticated as {result["full_name"]} ({result["matric_number"]})')
+        
+        # Greet user
+        await message.reply_text(
+            f"Hi {result.get('full_name', 'Student')} ({result.get('matric_number', 'unknown')}), we are processing your request..."
+        )
+
+
         if message.photo:
             print(f"[PHOTO] From @{username} (ID: {user_id}) - Received image")
 
-            file = await message.photo[-1].get_file()
-            file_path = await file.download_to_drive()
+            photo_size = message.photo[-1]  # Highest resolution photo
+            file = await photo_size.get_file()
+
+            # Ensure folder exists
+            download_dir = "telegram_photo"
+            os.makedirs(download_dir, exist_ok=True)
+
+            # Build full file path
+            file_name = f"{file.file_id}.jpg"
+            file_path = os.path.join(download_dir, file_name)
+
+            # Download to that path
+            await file.download_to_drive(custom_path=file_path)
+
             print(f"[PHOTO] From @{username} (ID: {user_id}) → File saved to: {file_path}")
             response = conversation_handler.handle_photo(file_path, user_id)
 
         else:
             text = message.text
             print(f'[TEXT] From @{username} (ID: {user_id}): "{text}"')
-            response = conversation_handler.handle_request(text, user_id)
+            response = await conversation_handler.handle_request(text, user_id)
 
         # Handle response
         if isinstance(response, str):
@@ -71,18 +124,26 @@ def start_bot(service_provider: str):
         user_id = str(query.from_user.id)
         data = query.data
 
-        response = conversation_handler.handle_callback(data, user_id)
+        response = await conversation_handler.handle_callback(query, user_id)
         print(f'[CALLBACK] From @{query.from_user.username or query.from_user.first_name} (ID: {user_id}) clicked: {data}')
 
-        if isinstance(response, str):
-            await query.message.reply_text(response)
-        elif response["type"] == "text":
-            await query.message.reply_text(response["text"])
-        elif response["type"] in ("buttons", "confirm"):
-            reply_markup = InlineKeyboardMarkup(response["buttons"])
-            await query.message.reply_text(response["text"], reply_markup=reply_markup)
+
+        if isinstance(response, list):
+            for res in response:
+                await _send_response(query.message, res)
+        else:
+            await _send_response(query.message, response)
 
 
+    async def _send_response(message, res):
+        if isinstance(res, str):
+            await message.reply_text(res)
+        elif res["type"] == "text":
+            await message.reply_text(res["text"])
+        elif res["type"] in ("buttons", "confirm"):
+            reply_markup = InlineKeyboardMarkup(res["buttons"])
+            await message.reply_text(res["text"], reply_markup=reply_markup)
+            
 
     # Error handler
     async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -91,12 +152,18 @@ def start_bot(service_provider: str):
     # Add handlers
     app.add_handler(CommandHandler('start', start_command))
     app.add_handler(CommandHandler('help', help_command))
-    app.add_handler(CommandHandler('custom', custom_command))
+    # app.add_handler(CommandHandler('custom', custom_command))
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
     app.add_handler(MessageHandler(filters.PHOTO, handle_message))
     app.add_handler(CallbackQueryHandler(handle_callback))
     
     app.add_error_handler(error)
+
+    # Activate scheduler for due soon book reminder
+    start_scheduler()
+
+    # Start cleanup scheduler when bot starts
+    clean_old_photos()
 
     # Polls the bot
     print('Polling...')

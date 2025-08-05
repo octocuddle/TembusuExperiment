@@ -1,8 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from app.api import api_router
-from app.db.session import engine, SessionLocal
-from app.db.base import Base
+from app.api.api_router import api_router
+from app.db.session import engine, SessionLocal, Base
 from app.core.config import settings
 from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy import text

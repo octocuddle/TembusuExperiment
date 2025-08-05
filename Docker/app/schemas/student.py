@@ -12,7 +12,8 @@ class StudentBase(BaseModel):
     )
     full_name: str = Field(..., description="Full Name", example="John Doe")
     email: EmailStr = Field(..., description="Email", example="john.doe@u.nus.edu")
-    status: Optional[str] = Field("active", description="Status", example="active")
+    telegram_id: Optional[str] = None
+    status: str = "active"
     
     @field_validator('matric_number')
     def validate_matric_number(cls, v):
@@ -47,11 +48,12 @@ class StudentUpdate(BaseModel):
     )
     full_name: Optional[str] = Field(None, description="Full Name", example="John Doe")
     email: Optional[EmailStr] = Field(None, description="Email", example="john.doe@u.nus.edu")
+    telegram_id: Optional[str] = None
     status: Optional[str] = Field(None, description="Status", example="active")
     
     @field_validator('matric_number')
     def validate_matric_number(cls, v):
-        """Validate matric number format: A +  digits + any letter"""
+        """Validate matric number format: A + 7 digits + any letter"""
         if v is None:
             return v
         if not (len(v) == 9 and 
@@ -74,6 +76,7 @@ class StudentUpdate(BaseModel):
 
 class StudentResponse(StudentBase):
     """Model used when returning student information"""
+    matric_number: str
     created_at: datetime
     updated_at: datetime
 
@@ -81,7 +84,7 @@ class StudentResponse(StudentBase):
         from_attributes = True
         json_schema_extra = {
             "example": {
-                "matric_number": "A1234567Z",
+                "matric_number": "A12345678Z",
                 "full_name": "John Doe",
                 "email": "john.doe@u.nus.edu",
                 "status": "active",

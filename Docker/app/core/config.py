@@ -18,12 +18,12 @@ class Settings(BaseSettings):
             return v
 
     POSTGRES_SERVER: str = "db"
-    POSTGRES_USER: str = "testuser"
-    POSTGRES_PASSWORD: str = "000000"
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "123456"
     POSTGRES_DB: str = "MyLibrary2"
     
     # 直接定义连接字符串，避免任何复杂处理
-    SQLALCHEMY_DATABASE_URI: Optional[str] = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db:5432/MyLibrary2"
+    SQLALCHEMY_DATABASE_URI: str = "postgresql://postgres:123456@db/MyLibrary2"
 
     class Config:
         case_sensitive = True

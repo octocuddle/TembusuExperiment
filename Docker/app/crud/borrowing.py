@@ -39,6 +39,7 @@ class CRUDBorrowing(CRUDBase[BorrowingRecord, BorrowCreate, Dict]):
         if record.student:
             record.student_name = record.student.full_name
             record.student_email = record.student.email
+            record.student_telegram_id = record.student.telegram_id
 
         # Add book information
         if record.copy and record.copy.book:
@@ -259,46 +260,41 @@ class CRUDBorrowing(CRUDBase[BorrowingRecord, BorrowCreate, Dict]):
             )
 
     def return_book(self, db: Session, *, borrow_id: int) -> BorrowingRecord:
-        """Return a book"""
-        borrow = self.get(db, borrow_id=borrow_id)
-        if not borrow:
+        """Return a borrowed book"""
+        # Get the borrowing record
+        record = db.query(BorrowingRecord).filter(BorrowingRecord.borrow_id == borrow_id).first()
+        if not record:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Borrowing record with ID {borrow_id} not found"
+                detail="Borrowing record not found"
             )
 
-        if borrow.return_date is not None:
+        if record.return_date:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Book has already been returned on {borrow.return_date}"
+                detail="Book has already been returned"
             )
 
-        try:
-            # Update borrowing record
-            now = datetime.now(timezone.utc)
-            borrow.return_date = now
-            borrow.status = BorrowStatus.RETURNED
+        # Update the borrowing record
+        now = datetime.now(timezone.utc)
+        record.return_date = now
+        record.status = "returned"
+        record.updated_at = now
 
-            # Update book copy status
-            book_copy = db.query(BookCopy).filter(BookCopy.copy_id == borrow.copy_id).first()
-            if book_copy:
-                book_copy.status = 'available'
-                db.add(book_copy)
+        # Update the book copy status to available
+        from ..crud.book_copy import book_copy_crud
+        book_copy = book_copy_crud.get(db, copy_id=record.copy_id)
+        if book_copy:
+            book_copy.status = "available"
+            book_copy.updated_at = now
 
-            db.add(borrow)
-            db.commit()
-            db.refresh(borrow)
+        db.commit()
+        db.refresh(record)
 
-            # Add computed fields
-            self._add_computed_fields(borrow)
+        # Add computed fields
+        self._add_computed_fields(record)
 
-            return borrow
-        except Exception as e:
-            db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=str(e)
-            )
+        return record
 
     def extend_due_date(self, db: Session, *, borrow_id: int, days: int) -> BorrowingRecord:
         """Extend the due date of a borrowing record"""
@@ -323,11 +319,16 @@ class CRUDBorrowing(CRUDBase[BorrowingRecord, BorrowCreate, Dict]):
 
         try:
             # Calculate new due date
-            now = datetime.now(timezone.utc)
             new_due_date = borrow.due_date + timedelta(days=days)
 
             # Update borrowing record
-            borrow.extension_date = now
+            # Set extension_date to the current due_date (before extension)
+            # Ensure both dates are in the same timezone
+            current_due_date = borrow.due_date
+            if current_due_date.tzinfo is None:
+                current_due_date = current_due_date.replace(tzinfo=timezone.utc)
+            
+            borrow.extension_date = current_due_date
             borrow.due_date = new_due_date
 
             db.add(borrow)
@@ -448,140 +449,6 @@ class CRUDBorrowing(CRUDBase[BorrowingRecord, BorrowCreate, Dict]):
             for book in popular_books
         ]
 
-    def get_borrowing_stats(
-        self,
-        db: Session,
-        *,
-        start_date: Optional[datetime] = None,
-        end_date: Optional[datetime] = None,
-        category_id: Optional[int] = None
-    ) -> Dict[str, Any]:
-        """Get borrowing statistics"""
-        now = datetime.now(timezone.utc)
-
-        # Default to last 30 days if dates not provided
-        if not start_date:
-            start_date = now - timedelta(days=30)
-        if not end_date:
-            end_date = now
-
-        # Base query with optional category filter
-        base_query = db.query(BorrowingRecord)
-        if category_id:
-            base_query = base_query.join(
-                BookCopy, BorrowingRecord.copy_id == BookCopy.copy_id
-            ).join(
-                Book, BookCopy.book_id == Book.book_id
-            ).filter(
-                Book.category_id == category_id
-            )
-
-        # Total borrowings in period
-        total_borrowings = base_query.filter(
-            BorrowingRecord.borrow_date >= start_date,
-            BorrowingRecord.borrow_date <= end_date
-        ).count()
-
-        # Active borrowings
-        active_borrowings = base_query.filter(
-            BorrowingRecord.return_date.is_(None)
-        ).count()
-
-        # Overdue borrowings
-        overdue_borrowings = base_query.filter(
-            BorrowingRecord.return_date.is_(None),
-            BorrowingRecord.due_date < now
-        ).count()
-
-        # Average days kept (for returned books)
-        avg_days_query = db.query(
-            func.avg(
-                func.julianday(BorrowingRecord.return_date) -
-                func.julianday(BorrowingRecord.borrow_date)
-            )
-        ).select_from(
-            base_query.subquery()
-        ).filter(
-            BorrowingRecord.return_date.isnot(None),
-            BorrowingRecord.borrow_date >= start_date,
-            BorrowingRecord.borrow_date <= end_date
-        )
-        avg_days_kept = avg_days_query.scalar() or 0
-
-        # Most borrowed books
-        most_borrowed_query = db.query(
-            Book.book_id,
-            Book.title,
-            func.count(BorrowingRecord.borrow_id).label('borrow_count')
-        ).join(
-            BookCopy, Book.book_id == BookCopy.book_id
-        ).join(
-            BorrowingRecord, BookCopy.copy_id == BorrowingRecord.copy_id
-        ).filter(
-            BorrowingRecord.borrow_date >= start_date,
-            BorrowingRecord.borrow_date <= end_date
-        )
-
-        if category_id:
-            most_borrowed_query = most_borrowed_query.filter(Book.category_id == category_id)
-
-        most_borrowed_books = most_borrowed_query.group_by(
-            Book.book_id
-        ).order_by(
-            desc('borrow_count')
-        ).limit(10).all()
-
-        # Most active students
-        most_active_students = db.query(
-            Student.matric_number,
-            Student.full_name,
-            func.count(BorrowingRecord.borrow_id).label('borrow_count')
-        ).join(
-            BorrowingRecord, Student.matric_number == BorrowingRecord.matric_number
-        ).filter(
-            BorrowingRecord.borrow_date >= start_date,
-            BorrowingRecord.borrow_date <= end_date
-        ).group_by(
-            Student.matric_number
-        ).order_by(
-            desc('borrow_count')
-        ).limit(10).all()
-
-        # Borrowings by month
-        borrowings_by_month = db.query(
-            func.strftime('%Y-%m', BorrowingRecord.borrow_date).label('month'),
-            func.count().label('count')
-        ).filter(
-            BorrowingRecord.borrow_date >= start_date,
-            BorrowingRecord.borrow_date <= end_date
-        ).group_by('month').order_by('month').all()
-
-        return {
-            "total_borrowings": total_borrowings,
-            "active_borrowings": active_borrowings,
-            "overdue_borrowings": overdue_borrowings,
-            "average_days_kept": round(float(avg_days_kept), 1),
-            "most_borrowed_books": [
-                {
-                    "book_id": book.book_id,
-                    "title": book.title,
-                    "borrow_count": book.borrow_count
-                } for book in most_borrowed_books
-            ],
-            "most_active_students": [
-                {
-                    "matric_number": student.matric_number,
-                    "name": student.full_name,
-                    "borrow_count": student.borrow_count
-                } for student in most_active_students
-            ],
-            "borrowings_by_month": [
-                {
-                    "month": month.month,
-                    "count": month.count
-                } for month in borrowings_by_month
-            ]
-        }
 
     def get_student_borrowing_stats(
         self,
@@ -655,7 +522,10 @@ class CRUDBorrowing(CRUDBase[BorrowingRecord, BorrowCreate, Dict]):
         matric_number: Optional[str] = None
     ) -> List[BorrowingRecord]:
         """Get active borrowings with filters"""
-        query = db.query(BorrowingRecord).filter(
+        query = db.query(BorrowingRecord).options(
+            joinedload(BorrowingRecord.student),
+            joinedload(BorrowingRecord.copy).joinedload(BookCopy.book)
+        ).filter(
             BorrowingRecord.return_date.is_(None)
         )
 
@@ -726,6 +596,328 @@ class CRUDBorrowing(CRUDBase[BorrowingRecord, BorrowCreate, Dict]):
         for record in records:
             self._add_computed_fields(record)
 
+        return records
+
+    def get_by_telegram_id(
+        self,
+        db: Session,
+        *,
+        telegram_id: str,
+        active_only: bool = False
+    ) -> List[BorrowingRecord]:
+        """Get borrowing records for a student by telegram ID"""
+        query = db.query(BorrowingRecord).join(
+            Student, BorrowingRecord.matric_number == Student.matric_number
+        ).filter(
+            Student.telegram_id == telegram_id
+        )
+
+        if active_only:
+            query = query.filter(BorrowingRecord.return_date.is_(None))
+
+        records = query.order_by(desc(BorrowingRecord.borrow_date)).all()
+
+        # Add computed fields to each record
+        for record in records:
+            self._add_computed_fields(record)
+
+        return records
+
+    def get_student_borrowing_stats(
+        self,
+        db: Session,
+        *,
+        telegram_id: str
+    ) -> Dict[str, Any]:
+        """Get borrowing statistics for a student by telegram ID"""
+        student = db.query(Student).filter(Student.telegram_id == telegram_id).first()
+        if not student:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Student with telegram ID {telegram_id} not found"
+            )
+        
+        return self.get_student_borrowing_stats(db, matric_number=student.matric_number)
+
+    def get_due_soon_by_telegram_id(
+        self,
+        db: Session,
+        *,
+        telegram_id: str,
+        days: int = 3,
+        limit: int = 100
+    ) -> List[BorrowingRecord]:
+        """Get borrowing records due soon for a student by telegram ID"""
+        now = datetime.now(timezone.utc)
+        soon = now + timedelta(days=days)
+
+        records = db.query(BorrowingRecord).join(
+            Student, BorrowingRecord.matric_number == Student.matric_number
+        ).filter(
+            Student.telegram_id == telegram_id,
+            BorrowingRecord.return_date.is_(None),
+            BorrowingRecord.due_date > now,
+            BorrowingRecord.due_date <= soon
+        ).order_by(BorrowingRecord.due_date).limit(limit).all()
+
+        # Add computed fields
+        for record in records:
+            self._add_computed_fields(record)
+
+        return records
+
+    def get_overdue_by_telegram_id(
+        self,
+        db: Session,
+        *,
+        telegram_id: str,
+        skip: int = 0,
+        limit: int = 100,
+        due_date_threshold: Optional[datetime] = None
+    ) -> List[BorrowingRecord]:
+        """Get overdue borrowing records for a student by telegram ID"""
+        now = datetime.now(timezone.utc)
+        threshold = due_date_threshold or now
+
+        records = db.query(BorrowingRecord).join(
+            Student, BorrowingRecord.matric_number == Student.matric_number
+        ).filter(
+            Student.telegram_id == telegram_id,
+            BorrowingRecord.return_date.is_(None),
+            BorrowingRecord.due_date < threshold
+        ).order_by(BorrowingRecord.due_date).offset(skip).limit(limit).all()
+
+        # Add computed fields
+        for record in records:
+            self._add_computed_fields(record)
+
+        return records
+
+    def get_by_student_identifier(
+        self,
+        db: Session,
+        *,
+        identifier: str,
+        active_only: bool = False
+    ) -> List[BorrowingRecord]:
+        """
+        Get borrowing records for a student by matric number or telegram ID
+        
+        Args:
+            db: Database session
+            identifier: Matric number or telegram ID
+            active_only: If True, only return active borrowings
+            
+        Returns:
+            List of borrowing records
+        """
+        # 首先尝试通过 telegram_id 查找学生
+        student = db.query(Student).filter(Student.telegram_id == identifier).first()
+        if student:
+            matric_number = student.matric_number
+        else:
+            # 如果不是 telegram_id，则假设是 matric_number
+            matric_number = identifier
+        
+        query = db.query(BorrowingRecord).filter(
+            BorrowingRecord.matric_number == matric_number
+        )
+
+        if active_only:
+            query = query.filter(BorrowingRecord.return_date.is_(None))
+
+        records = query.order_by(desc(BorrowingRecord.borrow_date)).all()
+
+        # Add computed fields to each record
+        for record in records:
+            self._add_computed_fields(record)
+
+        return records
+
+    def get_due_soon_by_student_identifier(
+        self,
+        db: Session,
+        *,
+        identifier: str,
+        days: int = 3,
+        limit: int = 100
+    ) -> List[BorrowingRecord]:
+        """Get borrowing records due soon for a student by matric number or telegram ID"""
+        # 首先尝试通过 telegram_id 查找学生
+        student = db.query(Student).filter(Student.telegram_id == identifier).first()
+        if student:
+            matric_number = student.matric_number
+        else:
+            # 如果不是 telegram_id，则假设是 matric_number
+            matric_number = identifier
+
+        now = datetime.now(timezone.utc)
+        soon = now + timedelta(days=days)
+
+        records = db.query(BorrowingRecord).filter(
+            BorrowingRecord.matric_number == matric_number,
+            BorrowingRecord.return_date.is_(None),
+            BorrowingRecord.due_date > now,
+            BorrowingRecord.due_date <= soon
+        ).order_by(BorrowingRecord.due_date).limit(limit).all()
+
+        # Add computed fields
+        for record in records:
+            self._add_computed_fields(record)
+
+        return records
+
+    def get_overdue_by_student_identifier(
+        self,
+        db: Session,
+        *,
+        identifier: str,
+        skip: int = 0,
+        limit: int = 100,
+        due_date_threshold: Optional[datetime] = None
+    ) -> List[BorrowingRecord]:
+        """Get overdue borrowing records for a student by matric number or telegram ID"""
+        # 首先尝试通过 telegram_id 查找学生
+        student = db.query(Student).filter(Student.telegram_id == identifier).first()
+        if student:
+            matric_number = student.matric_number
+        else:
+            # 如果不是 telegram_id，则假设是 matric_number
+            matric_number = identifier
+
+        now = datetime.now(timezone.utc)
+        threshold = due_date_threshold or now
+
+        records = db.query(BorrowingRecord).filter(
+            BorrowingRecord.matric_number == matric_number,
+            BorrowingRecord.return_date.is_(None),
+            BorrowingRecord.due_date < threshold
+        ).order_by(BorrowingRecord.due_date).offset(skip).limit(limit).all()
+
+        # Add computed fields
+        for record in records:
+            self._add_computed_fields(record)
+
+        return records
+
+    def search(
+        self,
+        db: Session,
+        *,
+        query: Optional[str] = None,
+        borrow_date_start: Optional[str] = None,
+        borrow_date_end: Optional[str] = None,
+        due_date_start: Optional[str] = None,
+        due_date_end: Optional[str] = None,
+        return_date_start: Optional[str] = None,
+        return_date_end: Optional[str] = None,
+        is_overdue: Optional[bool] = None,
+        is_active: Optional[bool] = None,
+        limit: int = 100,
+        offset: int = 0,
+        sort_by: Optional[str] = None
+    ) -> List[BorrowingRecord]:
+        """
+        搜索借阅记录
+        
+        Args:
+            db: 数据库会话
+            query: 通用搜索词
+            borrow_date_start: 借阅开始日期
+            borrow_date_end: 借阅结束日期
+            due_date_start: 应还开始日期
+            due_date_end: 应还结束日期
+            return_date_start: 归还开始日期
+            return_date_end: 归还结束日期
+            is_overdue: 是否逾期
+            is_active: 是否当前借阅
+            limit: 返回结果的最大数量
+            offset: 跳过的结果数量
+            sort_by: 排序字段
+            
+        Returns:
+            借阅记录列表
+        """
+        # 构建基础查询
+        db_query = db.query(BorrowingRecord)
+        
+        # 如果提供了通用搜索词
+        if query:
+            db_query = db_query.join(
+                Student, BorrowingRecord.matric_number == Student.matric_number
+            ).join(
+                BookCopy, BorrowingRecord.copy_id == BookCopy.copy_id
+            ).join(
+                Book, BookCopy.book_id == Book.book_id
+            ).filter(
+                or_(
+                    Student.name.ilike(f"%{query}%"),
+                    Student.matric_number.ilike(f"%{query}%"),
+                    Student.email.ilike(f"%{query}%"),
+                    Student.telegram_id.ilike(f"%{query}%"),
+                    Book.title.ilike(f"%{query}%"),
+                    Book.isbn.ilike(f"%{query}%")
+                )
+            )
+        else:
+            # 使用特定字段搜索
+            if borrow_date_start:
+                db_query = db_query.filter(BorrowingRecord.borrow_date >= borrow_date_start)
+            if borrow_date_end:
+                db_query = db_query.filter(BorrowingRecord.borrow_date <= borrow_date_end)
+                
+            if due_date_start:
+                db_query = db_query.filter(BorrowingRecord.due_date >= due_date_start)
+            if due_date_end:
+                db_query = db_query.filter(BorrowingRecord.due_date <= due_date_end)
+                
+            if return_date_start:
+                db_query = db_query.filter(BorrowingRecord.return_date >= return_date_start)
+            if return_date_end:
+                db_query = db_query.filter(BorrowingRecord.return_date <= return_date_end)
+                
+            if is_overdue is not None:
+                now = datetime.now(timezone.utc)
+                if is_overdue:
+                    db_query = db_query.filter(
+                        BorrowingRecord.return_date.is_(None),
+                        BorrowingRecord.due_date < now
+                    )
+                else:
+                    db_query = db_query.filter(
+                        or_(
+                            BorrowingRecord.return_date.isnot(None),
+                            BorrowingRecord.due_date >= now
+                        )
+                    )
+                    
+            if is_active is not None:
+                if is_active:
+                    db_query = db_query.filter(BorrowingRecord.return_date.is_(None))
+                else:
+                    db_query = db_query.filter(BorrowingRecord.return_date.isnot(None))
+        
+        # 添加排序
+        if sort_by:
+            if sort_by == "borrow_date":
+                db_query = db_query.order_by(BorrowingRecord.borrow_date)
+            elif sort_by == "due_date":
+                db_query = db_query.order_by(BorrowingRecord.due_date)
+            elif sort_by == "return_date":
+                db_query = db_query.order_by(BorrowingRecord.return_date)
+            elif sort_by == "created_at":
+                db_query = db_query.order_by(BorrowingRecord.created_at)
+            elif sort_by == "updated_at":
+                db_query = db_query.order_by(BorrowingRecord.updated_at)
+        
+        # 添加分页
+        db_query = db_query.offset(offset).limit(limit)
+        
+        # 获取结果并添加计算字段
+        records = db_query.all()
+        for record in records:
+            self._add_computed_fields(record)
+        
         return records
 
 
