@@ -4,3 +4,6 @@ credentials/
 *.DS_Store 
 .DS_Store
 *.env
+venv/
+*.sessions
+*.session-journal
