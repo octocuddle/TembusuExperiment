@@ -5,5 +5,5 @@ credentials/
 .DS_Store
 *.env
 venv/
-*.sessions
+*.session
 *.session-journal
