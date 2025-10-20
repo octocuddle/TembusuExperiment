@@ -1,0 +1,725 @@
+[2025-10-18 17:26:42] === New test session started at 2025-10-18 17:26:42 ===
+[2025-10-18 17:26:43] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 17:26:43] 
+[wf] >>> Starting iteration 1/10
+[2025-10-18 17:27:23] [hj] Iteration 1 done in 40.20 sec
+[2025-10-18 17:27:23] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 17:27:26] [wf] Iteration 1 done in 42.62 sec
+[2025-10-18 17:27:26] 
+[wf] >>> Starting iteration 2/10
+[2025-10-18 17:28:04] [hj] Iteration 2 done in 41.07 sec
+[2025-10-18 17:28:04] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 17:28:07] [wf] Iteration 2 done in 41.32 sec
+[2025-10-18 17:28:07] 
+[wf] >>> Starting iteration 3/10
+[2025-10-18 17:28:45] [hj] Iteration 3 done in 40.88 sec
+[2025-10-18 17:28:45] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 17:28:48] [wf] Iteration 3 done in 41.41 sec
+[2025-10-18 17:28:48] 
+[wf] >>> Starting iteration 4/10
+[2025-10-18 17:29:27] [hj] Iteration 4 done in 41.71 sec
+[2025-10-18 17:29:27] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 17:29:30] [wf] Iteration 4 done in 41.24 sec
+[2025-10-18 17:29:30] 
+[wf] >>> Starting iteration 5/10
+[2025-10-18 17:30:06] [hj] Iteration 5 done in 38.72 sec
+[2025-10-18 17:30:06] 
+[hj] >>> Starting iteration 6/10
+[2025-10-18 17:30:08] [wf] Iteration 5 done in 38.37 sec
+[2025-10-18 17:30:08] 
+[wf] >>> Starting iteration 6/10
+[2025-10-18 17:30:48] [hj] Iteration 6 done in 42.51 sec
+[2025-10-18 17:30:48] 
+[hj] >>> Starting iteration 7/10
+[2025-10-18 17:30:51] [wf] Iteration 6 done in 42.81 sec
+[2025-10-18 17:30:51] 
+[wf] >>> Starting iteration 7/10
+[2025-10-18 17:31:28] [hj] Iteration 7 done in 40.37 sec
+[2025-10-18 17:31:28] 
+[hj] >>> Starting iteration 8/10
+[2025-10-18 17:31:32] [wf] Iteration 7 done in 40.88 sec
+[2025-10-18 17:31:32] 
+[wf] >>> Starting iteration 8/10
+[2025-10-18 17:32:10] [hj] Iteration 8 done in 41.85 sec
+[2025-10-18 17:32:10] 
+[hj] >>> Starting iteration 9/10
+[2025-10-18 17:32:13] [wf] Iteration 8 done in 41.32 sec
+[2025-10-18 17:32:13] 
+[wf] >>> Starting iteration 9/10
+[2025-10-18 17:32:51] [hj] Iteration 9 done in 40.93 sec
+[2025-10-18 17:32:51] 
+[hj] >>> Starting iteration 10/10
+[2025-10-18 17:32:54] [wf] Iteration 9 done in 41.00 sec
+[2025-10-18 17:32:54] 
+[wf] >>> Starting iteration 10/10
+[2025-10-18 17:33:31] [hj] Iteration 10 done in 40.13 sec
+[2025-10-18 17:33:35] [wf] Iteration 10 done in 40.84 sec
+[2025-10-18 17:33:35] === Test session ended ===
+
+[2025-10-18 17:43:52] === New test session started at 2025-10-18 17:43:52 ===
+[2025-10-18 17:43:53] 
+[hj] >>> Starting iteration 1/50
+[2025-10-18 17:43:53] 
+[wf] >>> Starting iteration 1/50
+[2025-10-18 17:44:36] [hj] Iteration 1 done in 43.39 sec
+[2025-10-18 17:44:36] 
+[hj] >>> Starting iteration 2/50
+[2025-10-18 17:44:39] [wf] Iteration 1 done in 46.25 sec
+[2025-10-18 17:44:39] 
+[wf] >>> Starting iteration 2/50
+[2025-10-18 17:45:13] [hj] Iteration 2 done in 37.23 sec
+[2025-10-18 17:45:13] 
+[hj] >>> Starting iteration 3/50
+[2025-10-18 17:45:16] [wf] Iteration 2 done in 36.59 sec
+[2025-10-18 17:45:16] 
+[wf] >>> Starting iteration 3/50
+[2025-10-18 17:45:50] [hj] Iteration 3 done in 36.88 sec
+[2025-10-18 17:45:50] 
+[hj] >>> Starting iteration 4/50
+[2025-10-18 17:45:53] [wf] Iteration 3 done in 37.58 sec
+[2025-10-18 17:45:53] 
+[wf] >>> Starting iteration 4/50
+[2025-10-18 17:46:30] [hj] Iteration 4 done in 40.21 sec
+[2025-10-18 17:46:30] 
+[hj] >>> Starting iteration 5/50
+[2025-10-18 17:46:33] [wf] Iteration 4 done in 40.16 sec
+[2025-10-18 17:46:33] 
+[wf] >>> Starting iteration 5/50
+[2025-10-18 17:47:10] [hj] Iteration 5 done in 39.44 sec
+[2025-10-18 17:47:10] 
+[hj] >>> Starting iteration 6/50
+[2025-10-18 17:47:12] [wf] Iteration 5 done in 39.18 sec
+[2025-10-18 17:47:12] 
+[wf] >>> Starting iteration 6/50
+[2025-10-18 17:47:52] [hj] Iteration 6 done in 41.92 sec
+[2025-10-18 17:47:52] 
+[hj] >>> Starting iteration 7/50
+[2025-10-18 17:47:54] [wf] Iteration 6 done in 41.83 sec
+[2025-10-18 17:47:54] 
+[wf] >>> Starting iteration 7/50
+[2025-10-18 17:48:33] [hj] Iteration 7 done in 41.43 sec
+[2025-10-18 17:48:33] 
+[hj] >>> Starting iteration 8/50
+[2025-10-18 17:48:36] [wf] Iteration 7 done in 42.04 sec
+[2025-10-18 17:48:36] 
+[wf] >>> Starting iteration 8/50
+[2025-10-18 17:49:12] [hj] Iteration 8 done in 38.98 sec
+[2025-10-18 17:49:12] 
+[hj] >>> Starting iteration 9/50
+[2025-10-18 17:49:15] [wf] Iteration 8 done in 38.40 sec
+[2025-10-18 17:49:15] 
+[wf] >>> Starting iteration 9/50
+[2025-10-18 17:49:51] [hj] Iteration 9 done in 39.00 sec
+[2025-10-18 17:49:51] 
+[hj] >>> Starting iteration 10/50
+[2025-10-18 17:49:55] [wf] Iteration 9 done in 40.07 sec
+[2025-10-18 17:49:55] 
+[wf] >>> Starting iteration 10/50
+[2025-10-18 17:50:31] [hj] Iteration 10 done in 39.36 sec
+[2025-10-18 17:50:31] 
+[hj] >>> Starting iteration 11/50
+[2025-10-18 17:50:33] [wf] Iteration 10 done in 38.17 sec
+[2025-10-18 17:50:33] 
+[wf] >>> Starting iteration 11/50
+[2025-10-18 17:51:12] [hj] Iteration 11 done in 41.81 sec
+[2025-10-18 17:51:12] 
+[hj] >>> Starting iteration 12/50
+[2025-10-18 17:51:15] [wf] Iteration 11 done in 41.77 sec
+[2025-10-18 17:51:15] 
+[wf] >>> Starting iteration 12/50
+[2025-10-18 17:51:52] [hj] Iteration 12 done in 39.61 sec
+[2025-10-18 17:51:52] 
+[hj] >>> Starting iteration 13/50
+[2025-10-18 17:51:54] [wf] Iteration 12 done in 39.64 sec
+[2025-10-18 17:51:54] 
+[wf] >>> Starting iteration 13/50
+[2025-10-18 17:52:34] [hj] Iteration 13 done in 41.96 sec
+[2025-10-18 17:52:34] 
+[hj] >>> Starting iteration 14/50
+
+NEW TEST WITH 60sec rest
+
+[2025-10-18 18:17:50] ======= Starting Test Cycle 1/5 =======
+[2025-10-18 18:17:50] === New test session started at 2025-10-18 18:17:50 ===
+[2025-10-18 18:17:51] 
+[wf] >>> Starting iteration 1/10
+[2025-10-18 18:17:51] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 18:18:32] [wf] Iteration 1 done in 40.85 sec
+[2025-10-18 18:18:32] 
+[wf] >>> Starting iteration 2/10
+[2025-10-18 18:18:34] [hj] Iteration 1 done in 43.24 sec
+[2025-10-18 18:18:34] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 18:19:12] [wf] Iteration 2 done in 40.60 sec
+[2025-10-18 18:19:12] 
+[wf] >>> Starting iteration 3/10
+[2025-10-18 18:19:15] [hj] Iteration 2 done in 41.27 sec
+[2025-10-18 18:19:15] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 18:19:54] [wf] Iteration 3 done in 42.31 sec
+[2025-10-18 18:19:54] 
+[wf] >>> Starting iteration 4/10
+[2025-10-18 18:19:58] [hj] Iteration 3 done in 42.58 sec
+[2025-10-18 18:19:58] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 18:20:33] [wf] Iteration 4 done in 38.71 sec
+[2025-10-18 18:20:33] 
+[wf] >>> Starting iteration 5/10
+[2025-10-18 18:20:36] [hj] Iteration 4 done in 37.71 sec
+[2025-10-18 18:20:36] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 18:21:13] [wf] Iteration 5 done in 39.74 sec
+[2025-10-18 18:21:13] 
+[wf] >>> Starting iteration 6/10
+[2025-10-18 18:21:16] [hj] Iteration 5 done in 39.95 sec
+[2025-10-18 18:21:16] 
+[hj] >>> Starting iteration 6/10
+[2025-10-18 18:21:54] [wf] Iteration 6 done in 40.61 sec
+[2025-10-18 18:21:54] 
+[wf] >>> Starting iteration 7/10
+[2025-10-18 18:21:56] [hj] Iteration 6 done in 40.76 sec
+[2025-10-18 18:21:56] 
+[hj] >>> Starting iteration 7/10
+[2025-10-18 18:22:33] [wf] Iteration 7 done in 39.96 sec
+[2025-10-18 18:22:33] 
+[wf] >>> Starting iteration 8/10
+[2025-10-18 18:22:36] [hj] Iteration 7 done in 39.75 sec
+[2025-10-18 18:22:36] 
+[hj] >>> Starting iteration 8/10
+[2025-10-18 18:23:14] [wf] Iteration 8 done in 40.12 sec
+[2025-10-18 18:23:14] 
+[wf] >>> Starting iteration 9/10
+[2025-10-18 18:23:16] [hj] Iteration 8 done in 39.99 sec
+[2025-10-18 18:23:16] 
+[hj] >>> Starting iteration 9/10
+[2025-10-18 18:23:54] [wf] Iteration 9 done in 39.91 sec
+[2025-10-18 18:23:54] 
+[wf] >>> Starting iteration 10/10
+[2025-10-18 18:23:56] [hj] Iteration 9 done in 40.10 sec
+[2025-10-18 18:23:56] 
+[hj] >>> Starting iteration 10/10
+[2025-10-18 18:24:34] [wf] Iteration 10 done in 40.07 sec
+[2025-10-18 18:24:36] [hj] Iteration 10 done in 39.92 sec
+[2025-10-18 18:24:36] === Test session ended ===
+
+[2025-10-18 18:24:36] ======= Test Cycle 1 Finished =======
+[2025-10-18 18:24:36] --- Resting for 60 seconds ---
+[2025-10-18 18:25:36] ======= Starting Test Cycle 2/5 =======
+[2025-10-18 18:25:36] === New test session started at 2025-10-18 18:25:36 ===
+[2025-10-18 18:25:37] 
+[wf] >>> Starting iteration 1/10
+[2025-10-18 18:25:37] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 18:26:11] [wf] Iteration 1 done in 34.10 sec
+[2025-10-18 18:26:11] 
+[wf] >>> Starting iteration 2/10
+[2025-10-18 18:26:13] [hj] Iteration 1 done in 36.69 sec
+[2025-10-18 18:26:13] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 18:26:49] [wf] Iteration 2 done in 37.82 sec
+[2025-10-18 18:26:49] 
+[wf] >>> Starting iteration 3/10
+[2025-10-18 18:26:51] [hj] Iteration 2 done in 37.33 sec
+[2025-10-18 18:26:51] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 18:27:29] [wf] Iteration 3 done in 39.86 sec
+[2025-10-18 18:27:29] 
+[wf] >>> Starting iteration 4/10
+[2025-10-18 18:27:31] [hj] Iteration 3 done in 40.26 sec
+[2025-10-18 18:27:31] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 18:28:10] [wf] Iteration 4 done in 41.39 sec
+[2025-10-18 18:28:10] 
+[wf] >>> Starting iteration 5/10
+[2025-10-18 18:28:12] [hj] Iteration 4 done in 41.12 sec
+[2025-10-18 18:28:12] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 18:28:46] [wf] Iteration 5 done in 36.36 sec
+[2025-10-18 18:28:46] 
+[wf] >>> Starting iteration 6/10
+[2025-10-18 18:28:49] [hj] Iteration 5 done in 36.38 sec
+[2025-10-18 18:28:49] 
+[hj] >>> Starting iteration 6/10
+[2025-10-18 18:29:25] [wf] Iteration 6 done in 38.64 sec
+[2025-10-18 18:29:25] 
+[wf] >>> Starting iteration 7/10
+[2025-10-18 18:29:27] [hj] Iteration 6 done in 38.65 sec
+[2025-10-18 18:29:27] 
+[hj] >>> Starting iteration 7/10
+[2025-10-18 18:30:03] [wf] Iteration 7 done in 37.67 sec
+[2025-10-18 18:30:03] 
+[wf] >>> Starting iteration 8/10
+[2025-10-18 18:30:06] [hj] Iteration 7 done in 38.67 sec
+[2025-10-18 18:30:06] 
+[hj] >>> Starting iteration 8/10
+[2025-10-18 18:30:42] [wf] Iteration 8 done in 39.83 sec
+[2025-10-18 18:30:42] 
+[wf] >>> Starting iteration 9/10
+[2025-10-18 18:30:45] [hj] Iteration 8 done in 38.89 sec
+[2025-10-18 18:30:45] 
+[hj] >>> Starting iteration 9/10
+[2025-10-18 18:31:18] [wf] Iteration 9 done in 35.83 sec
+[2025-10-18 18:31:18] 
+[wf] >>> Starting iteration 10/10
+[2025-10-18 18:31:22] [hj] Iteration 9 done in 37.01 sec
+[2025-10-18 18:31:22] 
+[hj] >>> Starting iteration 10/10
+[2025-10-18 18:31:59] [wf] Iteration 10 done in 41.04 sec
+[2025-10-18 18:32:03] [hj] Iteration 10 done in 40.90 sec
+[2025-10-18 18:32:03] === Test session ended ===
+
+[2025-10-18 18:32:03] ======= Test Cycle 2 Finished =======
+[2025-10-18 18:32:03] --- Resting for 60 seconds ---
+[2025-10-18 18:33:03] ======= Starting Test Cycle 3/5 =======
+[2025-10-18 18:33:03] === New test session started at 2025-10-18 18:33:03 ===
+[2025-10-18 18:33:03] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 18:33:03] 
+[wf] >>> Starting iteration 1/10
+[2025-10-18 18:33:43] [hj] Iteration 1 done in 39.84 sec
+[2025-10-18 18:33:43] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 18:33:46] [wf] Iteration 1 done in 42.71 sec
+[2025-10-18 18:33:46] 
+[wf] >>> Starting iteration 2/10
+[2025-10-18 18:34:28] [hj] Iteration 2 done in 44.96 sec
+[2025-10-18 18:34:28] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 18:34:31] [wf] Iteration 2 done in 44.54 sec
+[2025-10-18 18:34:31] 
+[wf] >>> Starting iteration 3/10
+[2025-10-18 18:35:09] [hj] Iteration 3 done in 41.13 sec
+[2025-10-18 18:35:09] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 18:35:12] [wf] Iteration 3 done in 41.35 sec
+[2025-10-18 18:35:12] 
+[wf] >>> Starting iteration 4/10
+[2025-10-18 18:35:51] [hj] Iteration 4 done in 41.30 sec
+[2025-10-18 18:35:51] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 18:35:53] [wf] Iteration 4 done in 40.92 sec
+[2025-10-18 18:35:53] 
+[wf] >>> Starting iteration 5/10
+[2025-10-18 18:36:31] [hj] Iteration 5 done in 40.10 sec
+[2025-10-18 18:36:31] 
+[hj] >>> Starting iteration 6/10
+
+NEW TEST WITH 300sec rest
+
+
+[2025-10-18 19:57:23] ======= Starting Test Cycle 1/5 =======
+[2025-10-18 19:57:23] === New test session started at 2025-10-18 19:57:23 ===
+[2025-10-18 19:57:24] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 19:57:24] 
+[wf] >>> Starting iteration 1/10
+[2025-10-18 19:58:05] [hj] Iteration 1 done in 41.19 sec
+[2025-10-18 19:58:05] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 19:58:08] [wf] Iteration 1 done in 43.56 sec
+[2025-10-18 19:58:08] 
+[wf] >>> Starting iteration 2/10
+[2025-10-18 19:58:45] [hj] Iteration 2 done in 40.08 sec
+[2025-10-18 19:58:45] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 19:58:48] [wf] Iteration 2 done in 40.96 sec
+[2025-10-18 19:58:48] 
+[wf] >>> Starting iteration 3/10
+[2025-10-18 19:59:24] [hj] Iteration 3 done in 39.21 sec
+[2025-10-18 19:59:24] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 19:59:27] [wf] Iteration 3 done in 38.33 sec
+[2025-10-18 19:59:27] 
+[wf] >>> Starting iteration 4/10
+[2025-10-18 20:00:06] [hj] Iteration 4 done in 41.75 sec
+[2025-10-18 20:00:06] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 20:00:09] [wf] Iteration 4 done in 41.89 sec
+[2025-10-18 20:00:09] 
+[wf] >>> Starting iteration 5/10
+[2025-10-18 20:00:45] [hj] Iteration 5 done in 38.91 sec
+[2025-10-18 20:00:45] 
+[hj] >>> Starting iteration 6/10
+[2025-10-18 20:00:47] [wf] Iteration 5 done in 38.77 sec
+[2025-10-18 20:00:47] 
+[wf] >>> Starting iteration 6/10
+[2025-10-18 20:01:24] [hj] Iteration 6 done in 38.50 sec
+[2025-10-18 20:01:24] 
+[hj] >>> Starting iteration 7/10
+[2025-10-18 20:01:27] [wf] Iteration 6 done in 39.24 sec
+[2025-10-18 20:01:27] 
+[wf] >>> Starting iteration 7/10
+[2025-10-18 20:02:02] [hj] Iteration 7 done in 38.21 sec
+[2025-10-18 20:02:02] 
+[hj] >>> Starting iteration 8/10
+[2025-10-18 20:02:04] [wf] Iteration 7 done in 37.37 sec
+[2025-10-18 20:02:04] 
+[wf] >>> Starting iteration 8/10
+[2025-10-18 20:02:40] [hj] Iteration 8 done in 37.92 sec
+[2025-10-18 20:02:40] 
+[hj] >>> Starting iteration 9/10
+[2025-10-18 20:02:43] [wf] Iteration 8 done in 38.88 sec
+[2025-10-18 20:02:43] 
+[wf] >>> Starting iteration 9/10
+[2025-10-18 20:03:18] [hj] Iteration 9 done in 38.54 sec
+[2025-10-18 20:03:18] 
+[hj] >>> Starting iteration 10/10
+[2025-10-18 20:03:21] [wf] Iteration 9 done in 37.84 sec
+[2025-10-18 20:03:21] 
+[wf] >>> Starting iteration 10/10
+[2025-10-18 20:03:56] [hj] Iteration 10 done in 37.49 sec
+[2025-10-18 20:03:58] [wf] Iteration 10 done in 37.08 sec
+[2025-10-18 20:03:58] === Test session ended ===
+
+[2025-10-18 20:03:58] ======= Test Cycle 1 Finished =======
+[2025-10-18 20:03:58] --- Resting for 300 seconds ---
+[2025-10-18 20:08:58] ======= Starting Test Cycle 2/5 =======
+[2025-10-18 20:08:58] === New test session started at 2025-10-18 20:08:58 ===
+[2025-10-18 20:08:59] 
+[wf] >>> Starting iteration 1/10
+[2025-10-18 20:08:59] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 20:09:37] [wf] Iteration 1 done in 38.43 sec
+[2025-10-18 20:09:37] 
+[wf] >>> Starting iteration 2/10
+[2025-10-18 20:09:39] [hj] Iteration 1 done in 40.87 sec
+[2025-10-18 20:09:39] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 20:10:19] [wf] Iteration 2 done in 42.13 sec
+[2025-10-18 20:10:19] 
+[wf] >>> Starting iteration 3/10
+[2025-10-18 20:10:24] [hj] Iteration 2 done in 44.50 sec
+[2025-10-18 20:10:24] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 20:11:05] [wf] Iteration 3 done in 45.62 sec
+[2025-10-18 20:11:05] 
+[wf] >>> Starting iteration 4/10
+[2025-10-18 20:11:08] [hj] Iteration 3 done in 44.24 sec
+[2025-10-18 20:11:08] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 20:11:51] [wf] Iteration 4 done in 46.50 sec
+[2025-10-18 20:11:51] 
+[wf] >>> Starting iteration 5/10
+[2025-10-18 20:11:55] [hj] Iteration 4 done in 46.43 sec
+[2025-10-18 20:11:55] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 20:12:39] [wf] Iteration 5 done in 47.43 sec
+[2025-10-18 20:12:39] 
+[wf] >>> Starting iteration 6/10
+[2025-10-18 20:12:42] [hj] Iteration 5 done in 47.29 sec
+[2025-10-18 20:12:42] 
+[hj] >>> Starting iteration 6/10
+[2025-10-18 20:13:25] [wf] Iteration 6 done in 46.61 sec
+[2025-10-18 20:13:25] 
+[wf] >>> Starting iteration 7/10
+[2025-10-18 20:13:29] [hj] Iteration 6 done in 46.83 sec
+[2025-10-18 20:13:29] 
+[hj] >>> Starting iteration 7/10
+[2025-10-18 20:14:11] [wf] Iteration 7 done in 45.29 sec
+[2025-10-18 20:14:11] 
+[wf] >>> Starting iteration 8/10
+[2025-10-18 20:14:13] [hj] Iteration 7 done in 44.54 sec
+[2025-10-18 20:14:13] 
+[hj] >>> Starting iteration 8/10
+[2025-10-18 20:14:52] [wf] Iteration 8 done in 41.01 sec
+[2025-10-18 20:14:52] 
+[wf] >>> Starting iteration 9/10
+[2025-10-18 20:14:54] [hj] Iteration 8 done in 40.40 sec
+[2025-10-18 20:14:54] 
+[hj] >>> Starting iteration 9/10
+[2025-10-18 20:15:28] [wf] Iteration 9 done in 36.20 sec
+[2025-10-18 20:15:28] 
+[wf] >>> Starting iteration 10/10
+[2025-10-18 20:15:30] [hj] Iteration 9 done in 36.75 sec
+[2025-10-18 20:15:30] 
+[hj] >>> Starting iteration 10/10
+[2025-10-18 20:16:05] [wf] Iteration 10 done in 37.12 sec
+[2025-10-18 20:16:07] [hj] Iteration 10 done in 36.68 sec
+[2025-10-18 20:16:07] === Test session ended ===
+
+[2025-10-18 20:16:07] ======= Test Cycle 2 Finished =======
+[2025-10-18 20:16:07] --- Resting for 300 seconds ---
+[2025-10-18 20:21:07] ======= Starting Test Cycle 3/5 =======
+[2025-10-18 20:21:07] === New test session started at 2025-10-18 20:21:07 ===
+[2025-10-18 20:21:08] 
+[wf] >>> Starting iteration 1/10
+[2025-10-18 20:21:08] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 20:21:45] [hj] Iteration 1 done in 37.59 sec
+[2025-10-18 20:21:45] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 20:21:48] [wf] Iteration 1 done in 40.22 sec
+[2025-10-18 20:21:48] 
+[wf] >>> Starting iteration 2/10
+[2025-10-18 20:22:25] [hj] Iteration 2 done in 39.79 sec
+[2025-10-18 20:22:25] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 20:22:28] [wf] Iteration 2 done in 40.35 sec
+[2025-10-18 20:22:28] 
+[wf] >>> Starting iteration 3/10
+[2025-10-18 20:23:04] [hj] Iteration 3 done in 39.16 sec
+[2025-10-18 20:23:04] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 20:23:07] [wf] Iteration 3 done in 38.16 sec
+[2025-10-18 20:23:07] 
+[wf] >>> Starting iteration 4/10
+[2025-10-18 20:23:45] [hj] Iteration 4 done in 40.99 sec
+[2025-10-18 20:23:45] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 20:23:48] [wf] Iteration 4 done in 41.25 sec
+[2025-10-18 20:23:48] 
+[wf] >>> Starting iteration 5/10
+[2025-10-18 20:24:25] [hj] Iteration 5 done in 39.26 sec
+[2025-10-18 20:24:25] 
+[hj] >>> Starting iteration 6/10
+[2025-10-18 21:26:42] ======= Starting Test Cycle 1/5 =======
+[2025-10-18 21:26:42] === New test session started at 2025-10-18 21:26:42 ===
+[2025-10-18 21:26:43] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 21:27:09] [hj] Iteration 1 done in 26.85 sec
+[2025-10-18 21:27:09] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 21:27:37] [hj] Iteration 2 done in 27.59 sec
+[2025-10-18 21:27:37] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 21:28:04] [hj] Iteration 3 done in 26.77 sec
+[2025-10-18 21:28:04] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 21:28:32] [hj] Iteration 4 done in 28.07 sec
+[2025-10-18 21:28:32] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 21:28:59] [hj] Iteration 5 done in 27.44 sec
+[2025-10-18 21:28:59] 
+[hj] >>> Starting iteration 6/10
+[2025-10-18 21:29:26] [hj] Iteration 6 done in 26.96 sec
+[2025-10-18 21:29:26] 
+[hj] >>> Starting iteration 7/10
+[2025-10-18 21:29:54] [hj] Iteration 7 done in 27.73 sec
+[2025-10-18 21:29:54] 
+[hj] >>> Starting iteration 8/10
+[2025-10-18 21:30:23] [hj] Iteration 8 done in 28.70 sec
+[2025-10-18 21:30:23] 
+[hj] >>> Starting iteration 9/10
+[2025-10-18 21:30:50] [hj] Iteration 9 done in 27.60 sec
+[2025-10-18 21:30:50] 
+[hj] >>> Starting iteration 10/10
+[2025-10-18 21:31:17] [hj] Iteration 10 done in 27.14 sec
+[2025-10-18 21:31:17] === Test session ended ===
+
+[2025-10-18 21:31:17] ======= Test Cycle 1 Finished =======
+[2025-10-18 21:31:17] --- Resting for 300 seconds ---
+[2025-10-18 21:36:17] ======= Starting Test Cycle 2/5 =======
+[2025-10-18 21:36:17] === New test session started at 2025-10-18 21:36:17 ===
+[2025-10-18 21:36:18] 
+[hj] >>> Starting iteration 1/10
+[2025-10-18 21:36:46] [hj] Iteration 1 done in 27.80 sec
+[2025-10-18 21:36:46] 
+[hj] >>> Starting iteration 2/10
+[2025-10-18 21:37:14] [hj] Iteration 2 done in 28.14 sec
+[2025-10-18 21:37:14] 
+[hj] >>> Starting iteration 3/10
+[2025-10-18 21:37:41] [hj] Iteration 3 done in 27.22 sec
+[2025-10-18 21:37:41] 
+[hj] >>> Starting iteration 4/10
+[2025-10-18 21:38:10] [hj] Iteration 4 done in 28.50 sec
+[2025-10-18 21:38:10] 
+[hj] >>> Starting iteration 5/10
+[2025-10-18 21:38:38] [hj] Iteration 5 done in 28.47 sec
+[2025-10-18 21:38:38] 
+[hj] >>> Starting iteration 6/10
+[2025-10-18 21:39:06] [hj] Iteration 6 done in 27.80 sec
+[2025-10-18 21:39:06] 
+[hj] >>> Starting iteration 7/10
+[2025-10-18 21:49:02] ======= Starting Test Cycle 1/60 =======
+[2025-10-18 21:49:02] === New test session started at 2025-10-18 21:49:02 ===
+[2025-10-18 21:49:03] 
+[hj] >>> Starting iteration 1/1
+
+
+
+Try again single
+[2025-10-19 07:08:49] ======= Starting Test Cycle 1/5 =======
+[2025-10-19 07:08:49] === New test session started at 2025-10-19 07:08:49 ===
+[2025-10-19 07:08:50] 
+[hj] >>> Starting iteration 1/10
+[2025-10-19 07:09:17] [hj] Iteration 1 done in 27.63 sec
+[2025-10-19 07:09:17] 
+[hj] >>> Starting iteration 2/10
+[2025-10-19 07:09:44] [hj] Iteration 2 done in 27.16 sec
+[2025-10-19 07:09:44] 
+[hj] >>> Starting iteration 3/10
+[2025-10-19 07:10:12] [hj] Iteration 3 done in 27.38 sec
+[2025-10-19 07:10:12] 
+[hj] >>> Starting iteration 4/10
+[2025-10-19 07:10:40] [hj] Iteration 4 done in 28.18 sec
+[2025-10-19 07:10:40] 
+[hj] >>> Starting iteration 5/10
+[2025-10-19 07:11:08] [hj] Iteration 5 done in 27.82 sec
+[2025-10-19 07:11:08] 
+[hj] >>> Starting iteration 6/10
+[2025-10-19 07:11:36] [hj] Iteration 6 done in 27.69 sec
+[2025-10-19 07:11:36] 
+[hj] >>> Starting iteration 7/10
+[2025-10-19 07:12:03] [hj] Iteration 7 done in 27.69 sec
+[2025-10-19 07:12:03] 
+[hj] >>> Starting iteration 8/10
+[2025-10-19 07:12:31] [hj] Iteration 8 done in 27.73 sec
+[2025-10-19 07:12:31] 
+[hj] >>> Starting iteration 9/10
+[2025-10-19 07:12:59] [hj] Iteration 9 done in 28.08 sec
+[2025-10-19 07:12:59] 
+[hj] >>> Starting iteration 10/10
+[2025-10-19 07:13:27] [hj] Iteration 10 done in 27.47 sec
+[2025-10-19 07:13:27] === Test session ended ===
+
+[2025-10-19 07:13:27] ======= Test Cycle 1 Finished =======
+[2025-10-19 07:13:27] --- Resting for 1200 seconds ---
+[2025-10-19 07:33:17] ======= Starting Test Cycle 1/4 =======
+[2025-10-19 07:33:17] === New test session started at 2025-10-19 07:33:17 ===
+[2025-10-19 07:33:18] 
+[hj] >>> Starting iteration 1/10
+[2025-10-19 07:33:45] [hj] Iteration 1 done in 27.00 sec
+[2025-10-19 07:33:45] 
+[hj] >>> Starting iteration 2/10
+[2025-10-19 07:34:13] [hj] Iteration 2 done in 27.40 sec
+[2025-10-19 07:34:13] 
+[hj] >>> Starting iteration 3/10
+[2025-10-19 07:34:40] [hj] Iteration 3 done in 26.88 sec
+[2025-10-19 07:34:40] 
+[hj] >>> Starting iteration 4/10
+[2025-10-19 07:35:08] [hj] Iteration 4 done in 28.25 sec
+[2025-10-19 07:35:08] 
+[hj] >>> Starting iteration 5/10
+[2025-10-19 07:35:34] [hj] Iteration 5 done in 26.52 sec
+[2025-10-19 07:35:34] 
+[hj] >>> Starting iteration 6/10
+[2025-10-19 07:36:01] [hj] Iteration 6 done in 27.08 sec
+[2025-10-19 07:36:01] 
+[hj] >>> Starting iteration 7/10
+[2025-10-19 07:36:28] [hj] Iteration 7 done in 27.00 sec
+[2025-10-19 07:36:28] 
+[hj] >>> Starting iteration 8/10
+[2025-10-19 07:36:56] [hj] Iteration 8 done in 27.60 sec
+[2025-10-19 07:36:56] 
+[hj] >>> Starting iteration 9/10
+[2025-10-19 07:37:23] [hj] Iteration 9 done in 27.21 sec
+[2025-10-19 07:37:23] 
+[hj] >>> Starting iteration 10/10
+[2025-10-19 07:37:50] [hj] Iteration 10 done in 26.37 sec
+[2025-10-19 07:37:50] === Test session ended ===
+
+[2025-10-19 07:37:50] ======= Test Cycle 1 Finished =======
+[2025-10-19 07:37:50] --- Resting for 1800 seconds ---
+[2025-10-19 08:07:50] ======= Starting Test Cycle 2/4 =======
+[2025-10-19 08:07:50] === New test session started at 2025-10-19 08:07:50 ===
+[2025-10-19 08:07:51] 
+[hj] >>> Starting iteration 1/10
+[2025-10-19 08:08:17] [hj] Iteration 1 done in 26.73 sec
+[2025-10-19 08:08:17] 
+[hj] >>> Starting iteration 2/10
+[2025-10-19 08:08:44] [hj] Iteration 2 done in 26.73 sec
+[2025-10-19 08:08:44] 
+[hj] >>> Starting iteration 3/10
+[2025-10-19 08:09:11] [hj] Iteration 3 done in 26.88 sec
+[2025-10-19 08:09:11] 
+[hj] >>> Starting iteration 4/10
+[2025-10-19 08:09:39] [hj] Iteration 4 done in 27.93 sec
+[2025-10-19 08:09:39] 
+[hj] >>> Starting iteration 5/10
+[2025-10-19 08:10:06] [hj] Iteration 5 done in 27.20 sec
+[2025-10-19 08:10:06] 
+[hj] >>> Starting iteration 6/10
+[2025-10-19 08:10:33] [hj] Iteration 6 done in 27.27 sec
+[2025-10-19 08:10:33] 
+[hj] >>> Starting iteration 7/10
+[2025-10-19 08:11:00] [hj] Iteration 7 done in 26.91 sec
+[2025-10-19 08:11:00] 
+[hj] >>> Starting iteration 8/10
+[2025-10-19 08:11:28] [hj] Iteration 8 done in 27.69 sec
+[2025-10-19 08:11:28] 
+[hj] >>> Starting iteration 9/10
+[2025-10-19 08:11:55] [hj] Iteration 9 done in 26.68 sec
+[2025-10-19 08:11:55] 
+[hj] >>> Starting iteration 10/10
+[2025-10-19 08:12:22] [hj] Iteration 10 done in 27.40 sec
+[2025-10-19 08:12:22] === Test session ended ===
+
+[2025-10-19 08:12:22] ======= Test Cycle 2 Finished =======
+[2025-10-19 08:12:22] --- Resting for 1800 seconds ---
+[2025-10-19 08:42:22] ======= Starting Test Cycle 3/4 =======
+[2025-10-19 08:42:22] === New test session started at 2025-10-19 08:42:22 ===
+[2025-10-19 08:42:23] 
+[hj] >>> Starting iteration 1/10
+[2025-10-19 08:42:51] [hj] Iteration 1 done in 27.72 sec
+[2025-10-19 08:42:51] 
+[hj] >>> Starting iteration 2/10
+[2025-10-19 08:43:19] [hj] Iteration 2 done in 28.33 sec
+[2025-10-19 08:43:19] 
+[hj] >>> Starting iteration 3/10
+[2025-10-19 08:43:46] [hj] Iteration 3 done in 26.64 sec
+[2025-10-19 08:43:46] 
+[hj] >>> Starting iteration 4/10
+[2025-10-19 08:44:14] [hj] Iteration 4 done in 28.88 sec
+[2025-10-19 08:44:14] 
+[hj] >>> Starting iteration 5/10
+[2025-10-19 08:44:42] [hj] Iteration 5 done in 27.69 sec
+[2025-10-19 08:44:42] 
+[hj] >>> Starting iteration 6/10
+[2025-10-19 08:45:10] [hj] Iteration 6 done in 27.50 sec
+[2025-10-19 08:45:10] 
+[hj] >>> Starting iteration 7/10
+[2025-10-19 08:45:37] [hj] Iteration 7 done in 26.99 sec
+[2025-10-19 08:45:37] 
+[hj] >>> Starting iteration 8/10
+[2025-10-19 08:46:04] [hj] Iteration 8 done in 27.74 sec
+[2025-10-19 08:46:04] 
+[hj] >>> Starting iteration 9/10
+[2025-10-19 08:46:31] [hj] Iteration 9 done in 26.95 sec
+[2025-10-19 08:46:31] 
+[hj] >>> Starting iteration 10/10
+[2025-10-19 08:46:59] [hj] Iteration 10 done in 27.24 sec
+[2025-10-19 08:46:59] === Test session ended ===
+
+[2025-10-19 08:46:59] ======= Test Cycle 3 Finished =======
+[2025-10-19 08:46:59] --- Resting for 1800 seconds ---
+[2025-10-19 09:16:59] ======= Starting Test Cycle 4/4 =======
+[2025-10-19 09:16:59] === New test session started at 2025-10-19 09:16:59 ===
+[2025-10-19 09:16:59] 
+[hj] >>> Starting iteration 1/10
+[2025-10-19 09:17:27] [hj] Iteration 1 done in 27.97 sec
+[2025-10-19 09:17:27] 
+[hj] >>> Starting iteration 2/10
+[2025-10-19 09:17:55] [hj] Iteration 2 done in 27.68 sec
+[2025-10-19 09:17:55] 
+[hj] >>> Starting iteration 3/10
+[2025-10-19 09:18:22] [hj] Iteration 3 done in 27.18 sec
+[2025-10-19 09:18:22] 
+[hj] >>> Starting iteration 4/10
+[2025-10-19 09:18:51] [hj] Iteration 4 done in 28.50 sec
+[2025-10-19 09:18:51] 
+[hj] >>> Starting iteration 5/10
+[2025-10-19 09:19:19] [hj] Iteration 5 done in 27.92 sec
+[2025-10-19 09:19:19] 
+[hj] >>> Starting iteration 6/10
+[2025-10-19 09:19:46] [hj] Iteration 6 done in 27.53 sec
+[2025-10-19 09:19:46] 
+[hj] >>> Starting iteration 7/10
+[2025-10-19 09:20:14] [hj] Iteration 7 done in 27.59 sec
+[2025-10-19 09:20:14] 
+[hj] >>> Starting iteration 8/10
+[2025-10-19 09:20:42] [hj] Iteration 8 done in 28.63 sec
+[2025-10-19 09:20:42] 
+[hj] >>> Starting iteration 9/10
+[2025-10-19 09:21:10] [hj] Iteration 9 done in 27.59 sec
+[2025-10-19 09:21:10] 
+[hj] >>> Starting iteration 10/10
+[2025-10-19 09:21:37] [hj] Iteration 10 done in 26.57 sec
+[2025-10-19 09:21:37] === Test session ended ===
+
+[2025-10-19 09:21:37] ======= Test Cycle 4 Finished =======

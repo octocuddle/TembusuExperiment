@@ -1,21 +1,45 @@
 # flows/borrow_return_flow.py
-import asyncio, time
+
+import asyncio
+import time
 from pathlib import Path
 from pyrogram.types import Message
+from pyrogram import filters
+from pyrogram.handlers import MessageHandler
 
+# --- Helper 1: wait for bot message containing text (Corrected Version) ---
+async def wait_for_bot_message(client, bot_username, keywords, timeout=20):
+    """
+    Waits for a bot message containing specific keywords using an event handler.
+    This is the efficient way that avoids FloodWait errors.
+    """
+    # Future is an object that will eventually hold our result (the message).
+    future = asyncio.get_event_loop().create_future()
 
-# --- Helper 1: wait for bot message containing text ---
-async def wait_for_bot_message(client, bot_username, keywords, timeout=10):
-    """
-    Wait until the bot sends a message containing one of the keywords.
-    """
-    start = time.time()
-    while time.time() - start < timeout:
-        async for msg in client.get_chat_history(bot_username, limit=1):
-            if any(k.lower() in (msg.text or "").lower() for k in keywords):
-                return msg
-        await asyncio.sleep(0.5)
-    raise TimeoutError(f"Timeout waiting for bot message with {keywords}")
+    # This handler will be called for every new message from the target bot.
+    async def handler(_, message):
+        text = (message.text or message.caption or "").lower()
+        # If the message contains any of our keywords...
+        if any(k.lower() in text for k in keywords):
+            if not future.done():
+                # ...set the message as the result of our future.
+                future.set_result(message)
+
+    # Add the handler to the client. We specify the chat filter.
+    # Group number -1 makes it a high-priority handler.
+    handler_obj = MessageHandler(handler, filters.chat(bot_username))
+    client.add_handler(handler_obj, group=-1)
+
+    try:
+        # Now, wait for the future to be completed by the handler.
+        # If it's not completed within the timeout, it will raise an error.
+        return await asyncio.wait_for(future, timeout=timeout)
+    except asyncio.TimeoutError:
+        raise TimeoutError(f"Timeout waiting for bot message with keywords: {keywords}")
+    finally:
+        # Crucially, always remove the handler when we're done.
+        # This prevents it from firing on later, unrelated messages.
+        client.remove_handler(handler_obj, group=-1)
 
 
 # --- Helper 2: click a button by text ---
@@ -39,10 +63,10 @@ async def click_button_from_message(client, msg: Message, button_text: str):
 
 
 # --- Main flow: borrow → return ---
-async def run_borrow_return(client, bot_username, book_qr, location_qr, iterations=3):
+async def run_borrow_return(client, bot_username, book_qr, location_qr, iterations=3, log_func=print):
     for i in range(iterations):
         t0 = time.time()
-        print(f"\n[{client.name}] >>> Starting iteration {i+1}/{iterations}")
+        log_func(f"\n[{client.name}] >>> Starting iteration {i+1}/{iterations}")
 
         # --- Step 1: Start ---
         await client.send_message(bot_username, "/start")
@@ -78,4 +102,4 @@ async def run_borrow_return(client, bot_username, book_qr, location_qr, iteratio
 
         # --- Log this iteration ---
         latency = time.time() - t0
-        print(f"[{client.name}] Iteration {i+1} done in {latency:.2f} sec")
+        log_func(f"[{client.name}] Iteration {i+1} done in {latency:.2f} sec")
