@@ -7,6 +7,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 from utils.api_client import APIClient
+import os
 
 
 st.set_page_config(page_title="QR Label Generator", layout="wide")
@@ -26,41 +27,63 @@ def generate_label_image(uid, title, call_number, isbn):
     return img
 
 
+from reportlab.lib.units import mm
+
 def create_pdf(rows):
     buffer = BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
-    label_width = 180
-    label_height = 140
-    x_start = 40
-    y_start = 700
-    x, y = x_start, y_start
-    count = 0
+    page_width, page_height = A4
 
+    # Define label dimensions (in mm)
+    label_width = 70 * mm      # 7 cm wide
+    label_height = 37 * mm     # 3.7 cm high
+    num_cols = 3
+    num_rows = 8
+
+    # Optional fine-tuning margins (some printers can’t print to the edge)
+    left_margin = 0 * mm
+    top_margin = 0 * mm
+
+    count = 0
     for _, row in rows.iterrows():
         uid = row["qr_code"]
         title = row["title"]
         call_number = row["call_number"]
         isbn = row["isbn"] if pd.notna(row["isbn"]) else ""
+
+        # Generate QR code
         qr = qrcode.make(uid)
         qr_buf = BytesIO()
         qr.save(qr_buf, format="PNG")
         qr_buf.seek(0)
-        c.drawImage(ImageReader(qr_buf), x, y, width=60, height=60)
-        text_x = x + 65
-        text_y = y + 40
+
+        # Compute grid position
+        col = count % num_cols
+        row_num = (count // num_cols) % num_rows
+
+        # Top-left coordinate for this label
+        x = left_margin + col * label_width
+        y = page_height - top_margin - (row_num + 1) * label_height
+
+        # --- Draw content inside the label box ---
+        qr_size = 25 * mm
+        qr_x = x + 3 * mm
+        qr_y = y + (label_height - qr_size) / 2  # vertically centered
+        c.drawImage(ImageReader(qr_buf), qr_x, qr_y, width=qr_size, height=qr_size)
+
+        text_x = qr_x + qr_size + 3 * mm
+        text_y = y + label_height - 10 * mm
         c.setFont("Helvetica", 8)
-        c.drawString(text_x, text_y, f"Title: {title[:40]}")
-        c.drawString(text_x, text_y - 12, f"Call No: {call_number}")
+        c.drawString(text_x, text_y, f"Title: {title[:30]}")
+        c.drawString(text_x, text_y - 8, f"Call No: {call_number}")
         if isbn:
-            c.drawString(text_x, text_y - 24, f"ISBN: {isbn}")
-        x += label_width
+            c.drawString(text_x, text_y - 16, f"ISBN: {isbn}")
+
         count += 1
-        if count % 3 == 0:
-            x = x_start
-            y -= label_height
-        if count % 15 == 0:
+
+        # New page after filling 24 labels
+        if count % (num_cols * num_rows) == 0:
             c.showPage()
-            x, y = x_start, y_start
 
     c.save()
     buffer.seek(0)
@@ -105,5 +128,14 @@ def show_qr_label_tab():
         st.markdown("### Step 2: Download the PDF")
         pdf_buffer = create_pdf(selected_books)
         st.download_button("📥 Download PDF Labels", pdf_buffer, file_name="qr_labels.pdf", mime="application/pdf")
+        st.info(
+            '''
+            🖨️ **Printing Reminder:**\n
+            When printing the PDF, choose **“Actual Size”** (not “Fit to Page”).
+            This ensures perfect alignment with the *Unistat A4 24-label sticker paper (3×8 layout, 70 mm × 37 mm)*.
+            '''
+        )
+        image_path = os.path.join(os.path.dirname(__file__), "..", "assets", "QR_Printer_Config.png")
+        st.image(image_path, caption="Printer Configuration" )
 
 show_qr_label_tab()

@@ -82,42 +82,34 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-@st.cache_data(ttl=300)  # Cache for 5 minutes
-def get_cached_data():
+@st.cache_data(ttl=600)  # Cache for 10 minutes
+def get_cached_data(start_dt: datetime, end_dt: datetime, date_range_label: str):
     """Get all dashboard data in one go to reduce API calls"""
     try:
         logger.debug("Fetching dashboard data")
-        # Get all data
-        kpi_data = APIClient.get_kpi_metrics()
+        # Get all data (period-aware)
+        with st.spinner('Loading KPI data...'):
+            kpi_data = APIClient.get_kpi_metrics(start_date=start_dt, end_date=end_dt)
         logger.debug(f"KPI data: {kpi_data}")
         
-        # Select time range based on date range
-        if date_range == "Last 7 Days":
-            end_date = datetime.now()
-            start_date = end_date - timedelta(days=7)
-        elif date_range == "Last 30 Days":
-            end_date = datetime.now()
-            start_date = end_date - timedelta(days=30)
-        elif date_range == "Last 90 Days":
-            end_date = datetime.now()
-            start_date = end_date - timedelta(days=90)
-        else:
-            end_date = datetime.now()
-            start_date = end_date - timedelta(days=30)  # 默认30天
-        
-        popular_books = APIClient.get_popular_books(limit=10, start_date=start_date, end_date=end_date)
+        with st.spinner('Loading popular books...'):
+            popular_books = APIClient.get_popular_books(limit=10, start_date=start_dt, end_date=end_dt)
         logger.debug(f"Popular books: {popular_books}")
         
-        category_stats = APIClient.get_category_stats()
+        with st.spinner('Loading category stats...'):
+            category_stats = APIClient.get_category_stats()
         logger.debug(f"Category stats: {category_stats}")
         
-        student_activity = APIClient.get_student_activity(limit=10, start_date=start_date, end_date=end_date)
+        with st.spinner('Loading student activity...'):
+            student_activity = APIClient.get_student_activity(limit=10, start_date=start_dt, end_date=end_dt)
         logger.debug(f"Student activity: {student_activity}")
         
-        overdue_analysis = APIClient.get_overdue_analysis()
+        with st.spinner('Loading overdue analysis...'):
+            overdue_analysis = APIClient.get_overdue_analysis()
         logger.debug(f"Overdue analysis: {overdue_analysis}")
         
-        overdue_books = APIClient.get_overdue_books()
+        with st.spinner('Loading overdue books...'):
+            overdue_books = APIClient.get_overdue_books()
         logger.debug(f"Overdue books: {overdue_books}")
         
         return {
@@ -160,16 +152,16 @@ with st.sidebar:
                 max_value=datetime.now()
             )
         
-        # 验证日期范围
+        # Validate date range
         if start_date > end_date:
             st.error("⚠️ Start date cannot be later than end date")
             st.stop()
         
-        # 验证日期范围不超过一年
+        # Validate date range does not exceed one year
         if (end_date - start_date).days > 365:
             st.warning("⚠️ Date range exceeds one year. Data may be limited.")
         
-        # 转换为datetime对象
+        # Convert to datetime objects
         start_date = datetime.combine(start_date, datetime.min.time())
         end_date = datetime.combine(end_date, datetime.max.time())
     else:
@@ -183,7 +175,7 @@ with st.sidebar:
         end_date = datetime.now()
         start_date = end_date - timedelta(days=days)
     
-    # 显示选择的日期范围
+    # Display selected date range
     st.info(f"📅 Selected Period: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
     
     # Refresh button
@@ -194,7 +186,7 @@ with st.sidebar:
     # Data status indicator
     st.markdown("---")
     with st.spinner("Checking data status..."):
-        cached_data = get_cached_data()
+        cached_data = get_cached_data(start_date, end_date, date_range)
         if cached_data['success']:
             st.success("✅ Data loaded successfully")
         else:
@@ -205,13 +197,13 @@ with st.sidebar:
 # Main header
 st.markdown("""
 <div class="main-header">
-    <h1>📚 Library Management Dashboard</h1>
+    <h1>📚 Library Data Dashboard</h1>
     <p>Tembusu Library Operations Analytics Platform</p>
 </div>
 """, unsafe_allow_html=True)
 
 # Load cached data
-cached_data = get_cached_data()
+cached_data = get_cached_data(start_date, end_date, date_range)
 
 if not cached_data['success']:
     st.error("Failed to load dashboard data. Please try refreshing the page.")
@@ -285,13 +277,13 @@ with col1:
             st.error("Start date cannot be later than end date")
             st.stop()
             
-        # ensure the date time is not the future 
+        # Ensure the date time is not the future
         today = datetime.now(timezone.utc).date()
         if start_date.date() > today or end_date.date() > today:
             st.error("Cannot query future dates")
             st.stop()
             
-        # get the trend 
+        # Get the trend
         borrowing_trends = APIClient.get_borrowing_trends(start_date, end_date)
         logger.debug(f"Borrowing trends data: {borrowing_trends}")
         
@@ -342,78 +334,107 @@ with col2:
         logger.error(f"Failed to load utilization data: {str(e)}", exc_info=True)
         st.error(f"Failed to load utilization data: {str(e)}")
 
-# Detailed Tables
+def paginate_dataframe(df: pd.DataFrame, page_size: int = 50, key_prefix: str = "") -> pd.DataFrame:
+    total = len(df)
+    if total == 0:
+        return df
+    total_pages = (total + page_size - 1) // page_size
+    c1, c2, c3 = st.columns([1,2,1])
+    with c1:
+        prev = st.button("◀ Prev", key=f"prev_{key_prefix}", use_container_width=True)
+    with c3:
+        nextb = st.button("Next ▶", key=f"next_{key_prefix}", use_container_width=True)
+    current_page = st.number_input(
+        "Page",
+        min_value=1,
+        max_value=total_pages,
+        value=st.session_state.get(f"page_{key_prefix}", 1),
+        step=1,
+        key=f"page_{key_prefix}"
+    )
+    # Adjust page on button clicks
+    if prev and current_page > 1:
+        st.session_state[f"page_{key_prefix}"] = current_page - 1
+    if nextb and current_page < total_pages:
+        st.session_state[f"page_{key_prefix}"] = current_page + 1
+    current_page = st.session_state.get(f"page_{key_prefix}", 1)
+    start_idx = (current_page - 1) * page_size
+    end_idx = min(start_idx + page_size, total)
+    st.caption(f"Showing {start_idx+1}-{end_idx} of {total}")
+    return df.iloc[start_idx:end_idx]
+
+# Detailed Tables (lazy render and pagination)
 st.markdown('<h2 class="section-header">📋 Detailed Information</h2>', unsafe_allow_html=True)
 
 # Overdue Books Table
 with st.expander("⚠️ Overdue Books Details", expanded=False):
-    if overdue_books:
-        # Convert to DataFrame if it's a list
-        if isinstance(overdue_books, list):
-            overdue_df = pd.DataFrame(overdue_books)
-        else:
-            overdue_df = overdue_books
-            
-        if not overdue_df.empty:
-            st.dataframe(
-                overdue_df,
-                use_container_width=True,
-                hide_index=True,
-                column_config={
-                    "title": "Book Title",
-                    "student_name": "Student Name",
-                    "days_overdue": st.column_config.NumberColumn(
-                        "Days Overdue",
-                        format="%d days"
-                    ),
-                    "due_date": "Due Date"
-                }
-            )
-        else:
-            st.info("✅ No overdue books found!")
-    else:
-        st.info("✅ No overdue books found!")
+    load_overdue = st.checkbox("Load overdue table", value=False, key="load_overdue")
+    if load_overdue:
+        with st.spinner("Loading overdue table..."):
+            if overdue_books:
+                # Convert to DataFrame if it's a list
+                if isinstance(overdue_books, list):
+                    overdue_df = pd.DataFrame(overdue_books)
+                else:
+                    overdue_df = overdue_books
+                # Format due_date as YYMMDD without timezone
+                if not overdue_df.empty and 'due_date' in overdue_df.columns:
+                    overdue_df['due_date'] = pd.to_datetime(overdue_df['due_date'], errors='coerce').dt.strftime('%y%m%d')
+                # Paginate
+                page_df = paginate_dataframe(overdue_df, page_size=50, key_prefix="overdue")
+                if not page_df.empty:
+                    st.dataframe(
+                        page_df,
+                        use_container_width=True,
+                        hide_index=True,
+                        column_config={
+                            "title": "Book Title",
+                            "student_name": "Student Name",
+                            "days_overdue": st.column_config.NumberColumn(
+                                "Days Overdue",
+                                format="%d days"
+                            ),
+                            "due_date": "Due Date"
+                        }
+                    )
+                else:
+                    st.info("✅ No overdue books found!")
+            else:
+                st.info("✅ No overdue books found!")
 
 # Popular Books Table
 with st.expander("📚 Popular Books Details", expanded=False):
-    if popular_books:
-        # Convert to DataFrame if it's a list
-        if isinstance(popular_books, list):
-            popular_df = pd.DataFrame(popular_books)
-        else:
-            popular_df = popular_books
-            
-        if not popular_df.empty:
-            st.dataframe(
-                popular_df,
-                use_container_width=True,
-                hide_index=True,
-                column_config={
-                    "title": "Book Title",
-                    "author": "Author",
-                    "borrow_count": st.column_config.NumberColumn(
-                        "Borrow Count",
-                        format="%d times"
+    load_popular = st.checkbox("Load popular books table", value=False, key="load_popular")
+    if load_popular:
+        with st.spinner("Loading popular books table..."):
+            if popular_books:
+                # Convert to DataFrame if it's a list
+                if isinstance(popular_books, list):
+                    popular_df = pd.DataFrame(popular_books)
+                else:
+                    popular_df = popular_books
+                # Paginate
+                page_df = paginate_dataframe(popular_df, page_size=50, key_prefix="popular")
+                if not page_df.empty:
+                    st.dataframe(
+                        page_df,
+                        use_container_width=True,
+                        hide_index=True,
+                        column_config={
+                            "title": "Book Title",
+                            "author": "Author",
+                            "borrow_count": st.column_config.NumberColumn(
+                                "Borrow Count",
+                                format="%d times"
+                            )
+                        }
                     )
-                }
-            )
-        else:
-            st.info("No popular books data available")
-    else:
-        st.info("No popular books data available")
+                else:
+                    st.info("No popular books data available")
+            else:
+                st.info("No popular books data available")
 
-# Data Quality Summary
-with st.expander("📊 Data Quality Summary", expanded=False):
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.metric("📚 Popular Books Records", len(popular_books) if popular_books else 0)
-    
-    with col2:
-        st.metric("👥 Student Activity Records", len(student_activity) if student_activity else 0)
-    
-    with col3:
-        st.metric("⚠️ Overdue Records", len(overdue_books) if overdue_books else 0)
+# Removed Data Quality Summary section per request
 
 # Footer
 st.markdown("---")
