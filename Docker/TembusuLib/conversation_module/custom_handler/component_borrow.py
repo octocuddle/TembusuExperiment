@@ -13,6 +13,7 @@ from datetime import date, datetime
 import os
 
 MAX_BORROW_LIMIT = int(os.getenv("MAX_BORROW_LIMIT"))
+admin_contact = os.getenv("LIBRARY_ADMIN", "@LibraryAdmin")
 
 def start_borrow_flow(user_id: str, user_state: dict, fulfillment_text: str):
     user_state[user_id] = user_state.get(user_id, {})
@@ -73,7 +74,7 @@ def start_borrow_flow(user_id: str, user_state: dict, fulfillment_text: str):
     if not success:
         return {
             "type": "text",
-            "text": f"⚠️ Unable to check your borrow record right now.\n\nPlease try again later or contact @LibraryAdmin.\n\nError: {active_loans}"
+            "text": f"⚠️ Unable to check your borrow record right now.\n\nPlease try again later or contact {admin_contact}.\n\nError: {active_loans}"
         }
     
 
@@ -154,7 +155,7 @@ def handle_confirm_borrow(user_id: str, user_state: dict):
         user_state.pop(user_id, None)
         return {
             "type": "text",
-            "text": f"❌ Borrow failed: {result}. \n\nUse menu to start a new request. \nIf you encounter further problem, please contact the @LibraryAdmin."
+            "text": f"❌ Borrow failed: {result}. \n\nUse menu to start a new request. \nIf you encounter further problem, please contact {admin_contact}."
         }
     print(f'\n Borrow successful: {result}\n')
 

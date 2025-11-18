@@ -6,7 +6,9 @@ from utils.db_return_book import return_book
 from utils.auth_helpers import authenticated_users
 from utils.db_loan_history import get_loan_history_by_student, get_active_loan_by_qr_code
 from utils.db_location_validator import get_locationqr_by_id
+import os
 
+admin_contact = os.getenv("LIBRARY_ADMIN", "@LibraryAdmin")
 
 def start_return_flow(user_id: str, user_state: dict, fulfillment_text: str):
     user_state[user_id] = user_state.get(user_id, {})
@@ -168,8 +170,8 @@ def handle_return_proxy_decision(user_id: str, user_state: dict, choice: str):
             "text": (
                 "📸 Please still place the book back on the correct shelf and then submit a photo of the location QR code to complete the return process.\n\n"
                 f"Book Shelf: {book_info.get('location_name')}\n\n"
-                "📨 Since you're returning this on behalf of someone else, kindly message the library admin on Telegram to notify them.\n\n"
-                "🔔 Admin Contact: @LibraryAdmin\n"
+                "📨 Since you're returning this on behalf of someone else, kindly reach out and inform the library admin.\n\n"
+                f"🔔 Admin Contact: {admin_contact}\n"
                 "Thank you for your help!"
             )
         }

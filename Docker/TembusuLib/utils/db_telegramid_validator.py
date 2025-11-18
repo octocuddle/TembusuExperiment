@@ -3,6 +3,8 @@ import requests
 from typing import Union
 import os
 
+admin_contact = os.getenv("LIBRARY_ADMIN", "@LibraryAdmin")
+
 def validate_student_by_telegram_id(telegram_id: str) -> tuple[bool, Union[dict, str]]:
     """
     Validate student by checking if the Telegram ID is associated with a registered student.
@@ -17,17 +19,17 @@ def validate_student_by_telegram_id(telegram_id: str) -> tuple[bool, Union[dict,
         if response.status_code == 200:
             students = response.json()
             if not students:
-                return False, "You're not registered. Please contact the library admin at @LibraryAdminEmail."
+                return False, f"You're not registered. Please contact the library admin at {admin_contact}."
 
             student_data = students[0]  # Take the first match 
 
             if student_data.get("status") == "active":
                 return True, student_data
             else:
-                return False, "You are not an active student and could not use the library service. Please contact the library admin at @LibraryAdminEmail."
+                return False, f"You are not an active student and could not use the library service. Please contact the library admin at {admin_contact}."
 
         elif response.status_code == 404:
-            return False, "You're not registered. Please contact the library admin at @LibraryAdminEmail."
+            return False, f"You're not registered. Please contact the library admin at {admin_contact}."
         else:
             return False, f"Unexpected error from backend: {response.status_code}"
 
